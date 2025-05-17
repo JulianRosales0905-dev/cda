@@ -74,6 +74,11 @@ const initialInspections: Inspection[] = [
   {
     id: '1',
     vehiclePlate: 'DEF456',
+    customerName: 'Juan Pérez',
+    brand: 'Mazda',
+    model: 'CX-5',
+    serviceType: 'particular',
+    color: 'Rojo',
     date: new Date(today.setDate(today.getDate() - 15)),
     result: InspectionResult.APPROVED,
     observations: 'Vehículo en buenas condiciones',
@@ -97,6 +102,11 @@ const initialInspections: Inspection[] = [
   {
     id: '2',
     vehiclePlate: 'ABC123',
+    customerName: 'María Rodríguez',
+    brand: 'Toyota',
+    model: 'Corolla',
+    serviceType: 'particular',
+    color: 'Azul',
     date: new Date(today.setDate(today.getDate() - 30)),
     result: InspectionResult.REJECTED,
     observations: 'Sistema de frenos requiere mantenimiento',
@@ -147,7 +157,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     if (storedVehicles) setVehicles(JSON.parse(storedVehicles));
     if (storedAppointments) {
       const parsedAppointments = JSON.parse(storedAppointments);
-      // Convert date strings to Date objects
       setAppointments(parsedAppointments.map((appt: any) => ({
         ...appt,
         date: new Date(appt.date),
@@ -204,7 +213,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
 
   // Add a new appointment
   const addAppointment = async (appointmentData: Omit<Appointment, 'id' | 'createdAt'>): Promise<Appointment> => {
-    // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 500));
     
     const newAppointment = {
@@ -240,7 +248,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       createdAt: new Date()
     };
     
-    setInspections([...inspections, newInspection]);
+    setInspections(prevInspections => [...prevInspections, newInspection]);
     return newInspection;
   };
 
@@ -265,7 +273,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     );
     
     if (existingIndex >= 0) {
-      // Update existing availability
       const updatedAvailabilities = [...technicianAvailabilities];
       updatedAvailabilities[existingIndex] = {
         ...updatedAvailabilities[existingIndex],
@@ -273,7 +280,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       };
       setTechnicianAvailabilities(updatedAvailabilities);
     } else {
-      // Create new availability
       const newAvailability: TechnicianAvailability = {
         id: Date.now().toString(),
         technicianId,
