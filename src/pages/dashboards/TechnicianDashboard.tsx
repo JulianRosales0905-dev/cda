@@ -384,6 +384,7 @@ const CompletedInspections: React.FC = () => {
   const filteredInspections = inspections
     .filter(inspection => 
       inspection.technicianId === user?.id &&
+      (inspection.result === InspectionResult.APPROVED || inspection.result === InspectionResult.REJECTED) &&
       (inspection.vehiclePlate.toLowerCase().includes(searchTerm.toLowerCase()) ||
        inspection.customerName.toLowerCase().includes(searchTerm.toLowerCase()))
     )
@@ -440,12 +441,9 @@ const CompletedInspections: React.FC = () => {
                   </div>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     inspection.result === InspectionResult.APPROVED ? 'bg-green-100 text-green-800' : 
-                    inspection.result === InspectionResult.REJECTED ? 'bg-red-100 text-red-800' : 
-                    'bg-amber-100 text-amber-800'
+                    'bg-red-100 text-red-800'
                   }`}>
-                    {inspection.result === InspectionResult.APPROVED ? 'Aprobado' : 
-                     inspection.result === InspectionResult.REJECTED ? 'Rechazado' : 
-                     'Pendiente'}
+                    {inspection.result === InspectionResult.APPROVED ? 'Aprobado' : 'Rechazado'}
                   </span>
                 </div>
 
